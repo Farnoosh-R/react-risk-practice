@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 
 const FormRule = () => {
 
+const [forms, setForms] = useState([])
  const [form, setForm] = useState({
-    name: "",
-    lastName: "",
-    mobile: "",
+    firstOperand: "",
+    secondOperand: "",
+    id: "",
+    result: ""
  })
- const [forms, setForms] = useState([])
+ 
 
  useEffect(() => {
     localStorage.setItem("form", JSON.stringify(forms))
+    
  })
 
  const handleChange = (e) => {
@@ -19,21 +22,22 @@ const FormRule = () => {
 };
 
 
+
 const handleSubmit = (e) => {
     e.preventDefault();
-     const nextId = `rule${forms.length + 1}`;
-     const newForm = { id: nextId, ...form };
+    const newForm = {...form, id: `rule${forms.length + 1}`, result: Number(form.firstOperand) > Number(form.secondOperand)}
     const newForms = [...forms, newForm]
     setForms(newForms);
+    
     console.log(newForms);
-
 }
+
+
 
     return(
             <form onSubmit={handleSubmit}>
-            <input onChange={handleChange} type="text" name="name" placeholder="name" />
-            <input onChange={handleChange} type="text" name="lastName" placeholder="lastName" />
-            <input onChange={handleChange} type="text" name="mobile" placeholder="mobile" />
+            <input onChange={handleChange} type="text" name="firstOperand" placeholder="firstOperand" />
+            <input onChange={handleChange} type="text" name="secondOperand" placeholder="secondOperand" />
             <button type="submit">send</button>
         </form>
     )
